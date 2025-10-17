@@ -1,0 +1,21 @@
+http_listen_addr: 0.0.0.0:6063
+introspection_addr: 0.0.0.0:8089
+log_level: info
+
+indexer:
+  connstring: postgres://clair:clairpass@clair-database:5432/clair?sslmode=disable
+  migrations: true
+  scanlock_retry: 10
+  layer_scan_concurrency: 5
+
+matcher:
+  connstring: postgres://clair:clairpass@clair-database:5432/clair?sslmode=disable
+  migrations: true
+  indexer_addr: :6063
+
+notifier:
+  connstring: postgres://clair:clairpass@clair-database:5432/clair?sslmode=disable
+  migrations: true
+
+updaters:
+  sets: [alpine, debian, oracle, redhat, ubuntu]

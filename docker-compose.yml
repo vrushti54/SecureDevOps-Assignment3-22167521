@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  clair-database:
+    image: docker.io/library/postgres:15
+    container_name: clair-database
+    environment:
+      - POSTGRES_USER=clair
+      - POSTGRES_PASSWORD=clairpass
+      - POSTGRES_DB=clair
+    volumes:
+      - clair_dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clair"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  clair:
+    image: quay.io/projectquay/clair:4.7.4
+    container_name: clair
+    depends_on:
+      clair-database:
+        condition: service_healthy
+    volumes:
+      - ./config.yaml:/config/config.yaml:ro
+    command: ["-conf", "/config/config.yaml"]
+    ports:
+      - "6063:6063"
+      - "8089:8089"
+    restart: unless-stopped
+
+volumes:
+  clair_dbdata:
