@@ -1,0 +1,7 @@
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Date: Wed, 15 Oct 2025 05:28:47 GMT
+Trailer: Clair-Error
+X-Content-Type-Options: nosniff
+Transfer-Encoding: chunked
+
